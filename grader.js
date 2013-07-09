@@ -29,7 +29,6 @@ var rest = require('restler');
 
 var HTMLFILE_DEFAULT = "index.html";
 var CHECKSFILE_DEFAULT = "checks.json";
-var HTML_DEFAULT = "temp_index.html";
 
 var assertFileExists = function(infile) {
     var instr = infile.toString();
@@ -64,8 +63,8 @@ var clone = function(fn) {
     return fn.bind({});
 };
 
-var buildfn = function(checksfile) {
-    var url2file = function(result, response) {
+var checkUrl = function(urlstring, checksfile) {
+    rest.get(urlstring).on('complete', function(result) {
 	if (result instanceof Error) {
 	    util.puts("Error: " + result.message);
 	} else {
@@ -74,13 +73,7 @@ var buildfn = function(checksfile) {
 	    var outJson = JSON.stringify(checkJson, null, 4);
 	    console.log(outJson);
 	}
-    };
-    return url2file;
-};
-
-var checkUrl = function(urlstring, checksfile) {
-    var url2file = buildfn(checksfile);
-    rest.get(urlstring).on('complete', url2file);
+    });
 };
 
 if(require.main == module) {
