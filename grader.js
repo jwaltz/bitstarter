@@ -67,7 +67,7 @@ var clone = function(fn) {
 var buildfn = function(checksfile) {
     var url2file = function(result, response) {
 	if (result instanceof Error) {
-	    console.error('Error: ' + util.format(response.message));
+	    util.puts("Error: " + result.message);
 	} else {
 	    var $ = cheerio.load(result);
 	    var checkJson = checkFile($, checksfile);
