@@ -69,11 +69,15 @@ var checkUrl = function(urlstring, checksfile) {
 	    util.puts("Error: " + result.message);
 	} else {
 	    var $ = cheerio.load(result);
-	    var checkJson = checkFile($, checksfile);
-	    var outJson = JSON.stringify(checkJson, null, 4);
-	    console.log(outJson);
+            processResults($, checksfile);
 	}
     });
+};
+
+var processResults = function(cheerio, checks) {
+    var checkJson = checkFile(cheerio, checks);
+    var outJson = JSON.stringify(checkJson, null, 4);
+    console.log(outJson);
 };
 
 if(require.main == module) {
@@ -82,15 +86,12 @@ if(require.main == module) {
 	.option('-f, --file <html_file>', 'Path to index.html', clone(assertFileExists), HTMLFILE_DEFAULT)
 	.option('-u, --url <url>', 'URL to index.html')
 	.parse(process.argv);
-    var checkJson = {};
     if (program.url) {
-	checkJson = checkUrl(program.url, program.checks);
+	checkUrl(program.url, program.checks);
     }
     else {
 	var $ = cheerioHtmlFile(program.file);
-	checkJson = checkFile($, program.checks);
-	var outJson = JSON.stringify(checkJson, null, 4);
-	console.log(outJson);
+        processResults($, program.checks);
     }
 } else {
     exports.checkHtmlFile = checkHtmlFile;
