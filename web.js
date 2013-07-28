@@ -1,7 +1,10 @@
 var fs = require('fs');
 var express = require('express');
 
-var app = express.createServer(express.logger());
+var logFile = fs.createWriteStream('./log.txt', {flags: 'a'});
+
+var app = express.createServer();
+app.use(express.logger({stream: logFile}));
 app.use(express.static(__dirname));
 
 var buffer = fs.readFileSync('index.html');
