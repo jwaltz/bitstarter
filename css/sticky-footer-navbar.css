@@ -51,11 +51,21 @@ code {
   font-size: 80%;
 }
 
+/* positioning for logo on navbar */
 .navbar-fixed-top #logo {
     margin-top: -18px;
     margin-bottom: -19px;
 }
 
+/* position login and signup buttons properly on navbar */
 #login-btn, #signup-btn {
     margin: 6px 2px 2px 2px;
+}
+
+/* Beta banner: remove when out of beta (i.e. never) */
+#beta-banner {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 99999;
 }
