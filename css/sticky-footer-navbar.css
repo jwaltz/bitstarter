@@ -55,3 +55,7 @@ code {
     margin-top: -18px;
     margin-bottom: -19px;
 }
+
+#login-btn, #signup-btn {
+    margin: 6px 2px 2px 2px;
+}
