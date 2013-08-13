@@ -4,9 +4,10 @@ var express = require('express');
 var loggingStream = fs.createWriteStream('log.txt', {flags: 'a'});
 
 var app = express.createServer();
+
+app.use(express.favicon(__dirname + '/img/favicon.ico'));
 app.use(express.logger({stream: loggingStream}));
 app.use(express.static(__dirname));
-app.use(express.favicon(__dirname + '/img/favicon.ico'));
 
 app.get('/', function(request, response) {
     fs.readFile('index.html', function(err, data) {
