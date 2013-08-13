@@ -64,7 +64,7 @@ code {
 
 /* Beta banner: remove when out of beta (i.e. never) */
 #beta-banner {
-    position: absolute;
+    position: fixed;
     top: 0px;
     right: 0px;
     z-index: 99999;

@@ -7,10 +7,18 @@ var app = express.createServer();
 app.use(express.logger({stream: logFile}));
 app.use(express.static(__dirname));
 
-var buffer = fs.readFileSync('index.html');
-
 app.get('/', function(request, response) {
-  response.send(buffer.toString());
+    fs.readFile('index.html', function(err, data) {
+        if (err) throw err;
+        response.send(data);
+    });
+});
+
+app.get('/login.html', function(request, response) {
+    fs.readFile('login.html', function(err, data) {
+        if (err) throw err;
+        response.send(data);
+    });
 });
 
 var port = process.env.PORT || 8080;
