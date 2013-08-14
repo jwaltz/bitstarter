@@ -70,3 +70,8 @@ code {
     right: 0px;
     z-index: 99999;
 }
+
+div.addthis_toolbox {
+    width: 200px;
+    float: right;
+}

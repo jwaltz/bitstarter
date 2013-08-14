@@ -5,7 +5,7 @@
   "main": "web.js",
   "dependencies": {
     "ejs": "~0.8.4",
-    "express": "2.5.x"
+    "express": "3.3.5"
   },
   "engines": {
     "node": "0.8.x",
