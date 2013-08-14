@@ -26,8 +26,8 @@ app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
 
 //ROUTES
 app.get('/', function(request, response) {
-    response.render('index', {
-        title: "Find Paleo Food Nearby"
+    response.render('index', { 
+        title: "Find Paleo Food Nearby" 
     });
 });
 

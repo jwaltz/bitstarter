@@ -56,6 +56,8 @@ code {
 .navbar-fixed-top #logo {
     margin-top: -18px;
     margin-bottom: -19px;
+    position: relative;
+    top: 12px;
 }
 
 /* position login and signup buttons properly on navbar */
@@ -74,4 +76,5 @@ code {
 div.addthis_toolbox {
     width: 200px;
     float: right;
+    margin-top: 8px;
 }
