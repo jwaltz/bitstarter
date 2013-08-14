@@ -26,11 +26,15 @@ app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
 
 //ROUTES
 app.get('/', function(request, response) {
-    response.render('index');
+    response.render('index', {
+        title: "Find Paleo Food Nearby"
+    });
 });
 
 app.get('/login', function(request, response) {
-    response.render('login');
+    response.render('login', {
+        title: "PaleoGrinds Login"
+    });
 });
 
 
