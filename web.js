@@ -1,13 +1,13 @@
 var fs = require('fs');
 var express = require('express');
 
-var loggingStream = fs.createWriteStream('log.txt', {flags: 'a'});
-
 var app = express.createServer();
 
-app.use(express.favicon(__dirname + '/img/favicon.ico'));
-app.use(express.logger({stream: loggingStream}));
-app.use(express.static(__dirname));
+app.use(express.logger());
+app.use(express.static(__dirname + '/public'));
+app.use(express.cookieParser());
+app.use(express.session({secret: 'ceiling cat'}));
+app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
 
 app.get('/', function(request, response) {
     fs.readFile('index.html', function(err, data) {

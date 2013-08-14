@@ -1,7 +1,10 @@
 {
-  "name": "node-example",
+  "name": "paleogrinds",
   "version": "0.0.1",
+  "description": "Find and review nearby Paleo food options",
+  "main": "web.js",
   "dependencies": {
+    "ejs": "~0.8.4",
     "express": "2.5.x"
   },
   "engines": {
