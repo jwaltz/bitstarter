@@ -43,9 +43,9 @@
           </a>
           <div class="nav-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="/">Home</a></li>
-              <li><a href="#">Contact</a></li>
-              <li><a href="/donations">Donators</a></li>
+              <li <%if (page === "home") {%> class="active" <%}%>><a href="/">Home</a></li>
+              <li <%if (page === "contact") {%> class="active" <%}%>><a href="#">Contact</a></li>
+              <li <%if (page === "donations") {%> class="active" <%}%>><a href="/donations">Supporters</a></li>
             </ul>
             <a href="/login"><button id="login-btn" type="button" class="btn btn-primary">Log In</button></a>
             <a href="#"><button id="signup-btn" type="button" class="btn btn-warning">Sign Up</button></a>

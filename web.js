@@ -32,7 +32,8 @@ app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
 //ROUTES
 app.get('/', function(request, response) {
     response.render('index', { 
-        title: "Welcome to PaleoGrinds" 
+        title: "Welcome to PaleoGrinds",
+        page: "home"
     });
 });
 
@@ -53,7 +54,11 @@ app.get('/donations', function(request, response) {
                 time: order.time});
         });
         //Uses views/orders.html
-        response.render("donations", {orders: orders_json, title: "List of Donations"});
+        response.render("donations", {
+            orders: orders_json,
+            title: "List of Donations",
+            page: "donations"
+        });
     }).error(function(err) {
         console.log(err);
         response.send("error retrieving orders");
