@@ -5,7 +5,10 @@
   "main": "web.js",
   "dependencies": {
     "ejs": "~0.8.4",
-    "express": "3.3.5"
+    "express": "3.3.5",
+    "pg": "~2.3.1",
+    "sequelize": "~2.0.0-alpha2",
+    "async": "~0.2.9"
   },
   "engines": {
     "node": "0.8.x",
