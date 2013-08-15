@@ -1,0 +1,21 @@
+<% include header.html %>
+    <div class="container">
+      <h2>List of Donations</h2>
+      <table class="table table-striped">
+        <thead>
+          <th>Donator Coinbase ID</th>
+          <th>Amount of BTC</th>
+          <th>Transaction time</th>
+        </thead>
+        <tbody>
+          <% for(var i=0; i<orders.length; i++) {%>
+             <tr>
+               <td><%= orders[i].id %></td>
+               <td><%= orders[i].amount %></td>
+               <td><%= orders[i].time %></td>
+             </tr>
+             <% } %>
+      </table>
+      <a href="/refresh_donations">Refresh Donations</a>
+    </div>
+<% include footer.html %>

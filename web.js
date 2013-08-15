@@ -43,7 +43,7 @@ app.get('/login', function(request, response) {
 });
 
 
-app.get('/orders', function(request, response) {
+app.get('/donations', function(request, response) {
     global.db.Order.findAll().success(function(orders) {
         var orders_json = [];
         orders.forEach(function(order) {
@@ -53,7 +53,7 @@ app.get('/orders', function(request, response) {
                 time: order.time});
         });
         //Uses views/orders.html
-        response.render("orders", {orders: orders_json});
+        response.render("donations", {orders: orders_json, title: "List of Donations"});
     }).error(function(err) {
         console.log(err);
         response.send("error retrieving orders");
@@ -61,7 +61,7 @@ app.get('/orders', function(request, response) {
 });
 
 //Hit this URL while on paleogrinds.com/orders to refresh
-app.get('/refresh_orders', function(request, response) {
+app.get('/refresh_donations', function(request, response) {
     https.get("https://coinbase.com/api/v1/orders?api_key=" + process.env.COINBASE_API_KEY, function(res) {
         var body = '';
         res.on('data', function(chunk) {body += chunk;});
@@ -79,7 +79,7 @@ app.get('/refresh_orders', function(request, response) {
                         response.send("error adding orders");
                     } else {
                         //orders added successfully
-                        response.redirect("/orders");
+                        response.redirect("/donations");
                     }
                 });
             } catch (error) {
@@ -106,7 +106,7 @@ db.sequelize.sync().complete(function(err) {
     }
 });
 
-//add order to the databse if it doesn't already exist
+//add order to the database if it doesn't already exist
 var addOrder = function(order_obj, callback) {
     var order = order_obj.order; //order json from coinbase
     if (order.status != "completed") {
