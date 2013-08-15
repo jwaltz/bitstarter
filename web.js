@@ -37,9 +37,10 @@ app.get('/', function(request, response) {
     });
 });
 
-app.get('/login', function(request, response) {
-    response.render('login', {
-        title: "PaleoGrinds Login"
+app.get('/contact', function(request, response) {
+    response.render('contact', {
+        title: "Contact Us",
+        page: "contact"
     });
 });
 
