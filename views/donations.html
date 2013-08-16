@@ -1,7 +1,7 @@
 <% include header.html %>
     <div class="container">
       <h2>List of Donations</h2>
-      <table class="table table-striped">
+      <table class="table table-hover">
         <thead>
           <th>Donator Coinbase ID</th>
           <th>Amount of BTC</th>
@@ -16,6 +16,6 @@
              </tr>
              <% } %>
       </table>
-      <a href="/refresh_donations">Refresh Donations</a>
+      <a id="donation_refresh" href="/refresh_donations">Refresh Donations</a>
     </div>
 <% include footer.html %>

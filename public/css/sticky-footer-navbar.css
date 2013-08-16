@@ -72,3 +72,7 @@ code {
     right: 0px;
     z-index: 99999;
 }
+
+#donation_refresh {
+    color: #FFF
+}
