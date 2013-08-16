@@ -1,14 +1,15 @@
 <% include header.html %>
-      <!-- Begin page content -->
-      <div class="container">
-        <form class="form-signin">
-          <h2 class="form-signin-heading">Please Sign In</h2>
-          <input type="text" class="input-block-level" placeholder="Email" autofocus>
-          <input type="password" class="input-block-level" placeholder="Password">
-          <label class="checkbox">
-            <input type="checkbox" value="remember-me"> Remember me!
-          </label>
-          <button id="signin-btn" class="btn btn-large btn-primary btn-block" type="submit">Sign In</button>
-        </form>
-      </div>
+<!-- Begin page content -->
+<div class="container">
+  <div class="col-8">
+    <div class="jumbotron">
+      <h1>Login with Facebook</h1>
+      <p>Please click the following button to login with Facebook</p>
+      <a href="/auth/facebook"><button id="login-btn" type="button" class="btn btn-primary">
+          <i class="icon-facebook"></i>  Login</button>
+      </a>
+    </div>
+  </div>
+  <div class="col-4"></div>
+</div>
 <% include footer.html %>

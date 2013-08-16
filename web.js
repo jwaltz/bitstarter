@@ -4,9 +4,30 @@ var express = require('express');
 var http = require('http');
 var https = require('https');
 var db = require ('./models');
+var passport = require('passport');
+var FacebookStrategy = require('passport-facebook').Strategy;
+
+//Serialize and deserialize users out of the session.
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "http://paleogrinds.com/auth/facebook/callback"
+}, function(accessToken, refreshToken, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+        return done(null, profile);
+    });
+}));
 
 var app = express();
-
 
 //VIEWS: TEMPLATING WITH EJS
 //Allows naming of views with .html extension instead of .ejs
@@ -23,22 +44,70 @@ app.set('port', process.env.PORT || 8080);
 
 //MIDDLEWARE
 app.use(express.logger());
-app.use(express.static(__dirname + '/public'));
 app.use(express.cookieParser());
+app.use(express.bodyParser());
+app.use(express.methodOverride());
 app.use(express.session({secret: 'ceiling cat'}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(app.router);
+app.use(express.static(__dirname + '/public'));
 app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
 
 
 //ROUTES
 app.get('/', function(request, response) {
     response.render('index', { 
+        user: request.user,
         title: "Welcome to PaleoGrinds",
         page: "home"
     });
 });
 
+app.get('/account', ensureAuthenticated, function(request, response) {
+    response.render('account', {
+        user: request.user
+    });
+});
+
+app.get('/login', function(request, response) {
+    response.render('login', {
+        user: request.user,
+        title: "Please Login",
+        page: "login"
+    });
+});
+
+app.get('/auth/facebook',
+        passport.authenticate('facebook'),
+        function(request, response) {
+            //the request will be redirected to Facebook for authentication
+            //this function will not be called
+        });
+
+app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            failureRedirect: '/login'
+        }),
+        function(request, response) {
+            response.redirect('/');
+        });
+
+app.get('/logout', function(request, response) {
+    request.logout();
+    response.redirect('/');
+});
+
+function ensureAuthenticated(request, response, next) {
+    if (request.isAuthenticated()) {
+        return next();
+    }
+    response.redirect('login');
+}
+
 app.get('/contact', function(request, response) {
     response.render('contact', {
+        user: request.user,
         title: "Contact Us",
         page: "contact"
     });
@@ -56,6 +125,7 @@ app.get('/donations', function(request, response) {
         });
         //Uses views/orders.html
         response.render("donations", {
+            user: request.user,
             orders: orders_json,
             title: "List of Donations",
             page: "donations"
