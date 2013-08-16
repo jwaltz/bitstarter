@@ -8,59 +8,73 @@
 
     <!-- SCRIPTS, GETCHA SCRIPTS -->
     <%if (page === "search") {%>
-    <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCf63K9vkJqyN-A9kOYr6jZYZSJ8hmKMog&sensor=false">
-    </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCf63K9vkJqyN-A9kOYr6jZYZSJ8hmKMog&sensor=true"></script>
 
-    <script type="text/javascript">
-      google.maps.visualRefresh = true;
-      
-      var map;
-      function initialize() {
-      var mapOptions = {
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      map = new google.maps.Map(document.getElementById('map-canvas'),
+<script>
+var map;
+var marker;
+
+function initialize() {
+ 
+  var mapOptions = {
+    zoom: 15,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
-      if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      
-      var infowindow = new google.maps.InfoWindow({
-      map: map,
-      position: pos,
-      content: 'You are here.'
+
+  // Try HTML5 geolocation
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+
+      marker = new google.maps.Marker({
+        map: map,
+        draggable: false,
+        animation: google.maps.Animation.DROP,
+        position: pos
       });
+      google.maps.event.addListener(marker, 'click', toggleBounce);
 
       map.setCenter(pos);
-      }, function() {
+    }, function() {
       handleNoGeolocation(true);
-      });
-      } else {
-      handleNoGeolocation(false);
-      }
-      }
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+}
 
-      function handleNoGeolocation(errorFlag) {
-      if (errorFlag) {
-      var content = 'Error: The Geolocation service failed.';
-      } else {
-      var content = 'Erorr: Your browser doesn\'t support geolocation.';
-      }
-      var options = {
-      map: map,
-      position: new google.maps.LatLng(60, 105),
-      content: content
-      };
+function toggleBounce() {
+  if (marker.getAnimation() != null) {
+    marker.setAnimation(null);
+  } else {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+  }
+}
 
-      var infoWindow = new google.maps.InfoWindow(options);
-      map.setCenter(options.position);
-      }
-      
-      google.maps.event.addDomListener(window, 'load', intialize);
-    </script>
-    <%}%>
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'Error: The Geolocation service failed.';
+  } else {
+    var content = 'Error: Your browser doesn\'t support geolocation.';
+  }
+
+  var options = {
+    map: map,
+    position: new google.maps.LatLng(60, 105),
+    content: content
+  };
+
+  var infowindow = new google.maps.InfoWindow(options);
+  map.setCenter(options.position);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<%}%>
     <script src="js/jquery1.10.2.js"></script>
     <script src="js/jquery.backstretch.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
