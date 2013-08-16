@@ -51,9 +51,9 @@
           <div class="nav-collapse collapse">
             <ul class="nav navbar-nav">
               <li <%if (page === "home") {%> class="active" <%}%>><a href="/">Home</a></li>
+              <li <%if (page === "search") {%> class="active" <%}%>><a href="/">Search</a></li>
               <li <%if (page === "contact") {%> class="active" <%}%>><a href="/contact">Contact</a></li>
               <li <%if (page === "donations") {%> class="active" <%}%>><a href="/donations">Supporters</a></li>
-              <li <%if (page === "account") {%> class="active" <%}%>><a href="/account">My Account</a></li>
             </ul>
             <%if (!user) {%>
             <a href="/auth/facebook"><button id="login-btn" type="button" class="btn btn-primary">

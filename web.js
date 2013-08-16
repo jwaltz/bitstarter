@@ -68,7 +68,7 @@ app.get('/', function(request, response) {
 app.get('/account', ensureAuthenticated, function(request, response) {
     response.render('account', {
         user: request.user,
-        title: "Account",
+        title: "Your Account",
         page: "account"
     });
 });
@@ -79,6 +79,14 @@ app.get('/login', function(request, response) {
         user: request.user,
         title: "Please Login",
         page: "login"
+    });
+});
+
+app.get('/search', ensureAuthenticated, function(request, response) {
+    response.render('search', {
+        user: request.user,
+        title: "Search for Paleo Grinds",
+        page: "search"
     });
 });
 
@@ -94,7 +102,7 @@ app.get('/auth/facebook/callback',
             failureRedirect: '/login'
         }),
         function(request, response) {
-            response.redirect('/');
+            response.redirect('/search');
         });
 
 app.get('/logout', function(request, response) {
