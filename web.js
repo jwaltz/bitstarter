@@ -19,7 +19,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "http://paleogrinds.com/auth/facebook/callback"
+    callbackURL: "http://ec2-54-213-74-141.us-west-2.compute.amazonaws.com:8080/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
@@ -64,11 +64,15 @@ app.get('/', function(request, response) {
     });
 });
 
+
 app.get('/account', ensureAuthenticated, function(request, response) {
     response.render('account', {
-        user: request.user
+        user: request.user,
+        title: "Account",
+        page: "account"
     });
 });
+
 
 app.get('/login', function(request, response) {
     response.render('login', {
@@ -79,7 +83,7 @@ app.get('/login', function(request, response) {
 });
 
 app.get('/auth/facebook',
-        passport.authenticate('facebook'),
+        passport.authenticate('facebook', { scope: ['email', 'user_checkins'] }),
         function(request, response) {
             //the request will be redirected to Facebook for authentication
             //this function will not be called
