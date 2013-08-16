@@ -82,13 +82,14 @@ app.get('/login', function(request, response) {
     });
 });
 
-app.get('/search', ensureAuthenticated, function(request, response) {
+app.get('/search', function(request, response) {
     response.render('search', {
         user: request.user,
         title: "Search for Paleo Grinds",
         page: "search"
     });
 });
+
 
 app.get('/auth/facebook',
         passport.authenticate('facebook', { scope: ['email', 'user_checkins'] }),
@@ -102,7 +103,7 @@ app.get('/auth/facebook/callback',
             failureRedirect: '/login'
         }),
         function(request, response) {
-            response.redirect('/search');
+            response.redirect('/');
         });
 
 app.get('/logout', function(request, response) {
