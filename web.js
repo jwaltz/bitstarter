@@ -1,11 +1,11 @@
-var async = require('async');
-var fs = require('fs');
-var express = require('express');
-var http = require('http');
-var https = require('https');
-var db = require ('./models');
-var passport = require('passport');
-var FacebookStrategy = require('passport-facebook').Strategy;
+var async = require('async')
+  , fs = require('fs')
+  , express = require('express')
+  , http = require('http')
+  , https = require('https')
+  , db = require ('./models')
+  , passport = require('passport')
+  , FacebookStrategy = require('passport-facebook').Strategy;
 
 //Serialize and deserialize users out of the session.
 passport.serializeUser(function(user, done) {
@@ -21,9 +21,27 @@ passport.use(new FacebookStrategy({
     clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: "http://ec2-54-213-74-141.us-west-2.compute.amazonaws.com:8080/auth/facebook/callback"
 }, function(accessToken, refreshToken, profile, done) {
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-        return done(null, profile);
+    var User = global.db.User;
+    User.find({ where: { id: profile.id } }).success(function(userInstance) {
+        if (userInstance) {
+            //user exists
+            return;
+        } else {
+            //create new user
+            var newUser = User.build({
+                "id": profile.id,
+                "username": profile.username,
+                "displayName": profile.displayName,
+                "gender": profile.gender,
+                "profileUrl": profile.profileUrl,
+                "email": profile.emails[0].value
+            });
+            newUser.save().success(function() {
+                return;
+            }).error(function(err) {
+                throw err;
+            });
+        }
     });
 }));
 
@@ -92,7 +110,7 @@ app.get('/search', function(request, response) {
 
 
 app.get('/auth/facebook',
-        passport.authenticate('facebook', { scope: ['email', 'user_checkins'] }),
+        passport.authenticate('facebook', { scope: ['email'] }),
         function(request, response) {
             //the request will be redirected to Facebook for authentication
             //this function will not be called
@@ -136,7 +154,7 @@ app.get('/donations', function(request, response) {
                 amount: order.amount,
                 time: order.time});
         });
-        //Uses views/orders.html
+        //Uses views/donation
         response.render("donations", {
             user: request.user,
             orders: orders_json,
