@@ -25,7 +25,7 @@ passport.use(new FacebookStrategy({
     User.find({ where: { id: profile.id } }).success(function(userInstance) {
         if (userInstance) {
             //user exists
-            return;
+            return done(null, profile);
         } else {
             //create new user
             var newUser = User.build({
@@ -37,9 +37,9 @@ passport.use(new FacebookStrategy({
                 "email": profile.emails[0].value
             });
             newUser.save().success(function() {
-                return;
+                return done(null, profile);
             }).error(function(err) {
-                throw err;
+                return done(err);
             });
         }
     });
